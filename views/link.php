@@ -70,7 +70,7 @@
       <th class="sub-info">Dernier message</th>
    </tr>
    <?php
-   while($c = $categorie->fetch()) {
+   while($c = $f_categories->fetch()) {
       $subcat->execute(array($c['id_Cat']));
       $sujet = '';
    //  while($sc = $subcat->fetch()) { 

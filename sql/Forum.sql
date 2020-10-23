@@ -26,10 +26,10 @@ create table Categorie(
    primary key(id_Cat)
 );
 
-	insert into Categorie (id_Cat, Theme, nombre_sujet) values
-	(1, "JeuxVideo/Plateaux", "2"),
-	(2, "Mode/Sneakers", "1" ),
-	(3, "Sports", "3");
+	insert into Categorie (id_Cat, Theme) values
+	(1, "JeuxVideo/Plateaux"),
+	(2, "Mode/Sneakers"),
+	(3, "Sports");
 
 
 create table sujet(
