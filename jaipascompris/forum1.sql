@@ -29,8 +29,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `f_categories` (
-  `id` int(11) NOT NULL,
+  `id_categorie` int(11) NOT NULL,
   `nom` varchar(255)
+  primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -40,13 +41,16 @@ CREATE TABLE `f_categories` (
 --
 
 CREATE TABLE `f_messages` (
-  `id` int(11) NOT NULL,
+  `id_messsage` int(11) NOT NULL,
   `id_topic` int(11),
   `id_posteur` int(11),
   `date_heure_post` datetime,
   `date_heure_edition` datetime,
   `meilleure_reponse` int(1),
-  `contenu` text 
+  `contenu` text
+  primary key (id_messsage),
+  foreign key (id_topic) references f_topics (id_topics),
+  foreign key (id_posteur) references ?????????? (id_posteur)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -55,17 +59,19 @@ CREATE TABLE `f_messages` (
 -- Structure de la table `f_sous-categories`
 --
 
-CREATE TABLE `f_sous-categories` (
-  `id` int(11) NOT NULL,
+CREATE TABLE f_sous_categories (
+  `id_souscategorie` int(11) NOT NULL,
   `id_categorie` int(11),
   `nom` varchar(255)
+  primary key (id_souscategorie)
+  foreign key (id_categorie) references f_categories (id_categorie)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `f_sous-categories`
 --
 
-INSERT INTO `f_sous-categories` (`id`, `id_categorie`, `nom`) VALUES
+INSERT INTO `f_sous_categories` (`id`, `id_categorie`, `nom`) VALUES
 (1, 1, 'test');
 
 -- --------------------------------------------------------
@@ -75,9 +81,12 @@ INSERT INTO `f_sous-categories` (`id`, `id_categorie`, `nom`) VALUES
 --
 
 CREATE TABLE `f_suivis` (
-  `id` int(11) NOT NULL,
+  `id_suivis` int(11) NOT NULL,
   `id_user` int(11),
   `id_topic` int(11)
+  primary key (id_topic),
+  foreign key (id_user) references ?????????? (id_user),
+  foreign key (id_topic) references f_topics (id_topic)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -87,26 +96,32 @@ CREATE TABLE `f_suivis` (
 --
 
 CREATE TABLE `f_topics` (
-  `id` int(11) NOT NULL,
+  `id_topic` int(11) NOT NULL,
   `id_createur` int(11) ,
   `sujet` text,
   `contenu` text,
   `date-heure-creation` datetime,
   `resolu` tinyint(1),
   `notif_createur` tinyint(1)
+  primary key (id_topic),
+  foreign key (id_createur) ?????????? (id_createur)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `f_topics-categorie`
---
 
-CREATE TABLE `f_topics-categorie` (
-  `id` int(11) NOT NULL,
+CREATE TABLE f_topics_categorie (
+  `id_topics_categorie` int(11) NOT NULL,
   `id_topic` int(11),
   `id_categorie` int(11),
   `id_souscategorie` int(11)
+  primary key (id_topics_categorie),
+  foreign key (id_topics) references f_topics (id_topics),
+  foreign key (id_categorie) references f_categories (id_categorie),
+  foreign key (id_souscategorie) references f_sous_categories (id_souscategorie)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -128,7 +143,7 @@ ALTER TABLE `f_messages`
 --
 -- Index pour la table `f_sous-categories`
 --
-ALTER TABLE `f_sous-categories`
+ALTER TABLE `f_sous_categories`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -146,7 +161,7 @@ ALTER TABLE `f_topics`
 --
 -- Index pour la table `f_topics-categorie`
 --
-ALTER TABLE `f_topics-categorie`
+ALTER TABLE `f_topics_categorie`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -168,7 +183,7 @@ ALTER TABLE `f_messages`
 --
 -- AUTO_INCREMENT pour la table `f_sous-categories`
 --
-ALTER TABLE `f_sous-categories`
+ALTER TABLE `f_sous_categories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -186,7 +201,7 @@ ALTER TABLE `f_topics`
 --
 -- AUTO_INCREMENT pour la table `f_topics-categorie`
 --
-ALTER TABLE `f_topics-categorie`
+ALTER TABLE `f_topics_categorie`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
